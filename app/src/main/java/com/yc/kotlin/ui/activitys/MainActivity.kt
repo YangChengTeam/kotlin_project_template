@@ -20,26 +20,24 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     @Inject lateinit var mainAdapter: MainAdapter
+    @Inject lateinit var viewModel: NewsViewModel
 
-    init {
-        DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule()).build().inject(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bind = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-
+        
+        DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().inject(this)
 
         recyclerView.adapter = mainAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val viewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
         viewModel.getNewsInfo(kmapOf(
                 "news_id" to "927",
                 "period" to "-1")).observe(this, Observer {
-            bind.title = it?.info?.title
+            bind.title = it?.title
             post {
-                mainAdapter.setNewData(listOf(it?.info))
+                mainAdapter.setNewData(listOf(it))
             }
 
         })
