@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bind = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        
+
         DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().inject(this)
 
         recyclerView.adapter = mainAdapter
@@ -36,10 +36,7 @@ class MainActivity : AppCompatActivity() {
                 "news_id" to "927",
                 "period" to "-1")).observe(this, Observer {
             bind.title = it?.title
-            post {
-                mainAdapter.setNewData(listOf(it))
-            }
-
+            mainAdapter.setNewData(listOf(it))
         })
     }
 }
