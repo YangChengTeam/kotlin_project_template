@@ -9,13 +9,11 @@ import android.arch.persistence.room.PrimaryKey
  */
 
 
-
 @Entity(tableName = "news_info")
-data class NewsInfo(var title: String){
+data class NewsInfo(var title: String) {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = false)
     var id: Long = 0
 }
 
-
-data class NewsInfoWrapper(var info: NewsInfo)
+data class NewsInfoWrapper(var list: List<NewsInfo>)

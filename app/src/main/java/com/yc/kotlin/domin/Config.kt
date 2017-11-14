@@ -36,7 +36,7 @@ val retrofit: Retrofit by lazy {
 
 object Config {
     val HTTP_STAUTS_OK = 1
-    val baseUrl = "http://en.qqtn.com/api/"
+    val baseUrl = "http://en.wk2.com/api/"
 }
 
 object Goagal {
@@ -95,6 +95,7 @@ object Goagal {
                 "sv" to systemVersion,
                 "imeil" to uuid,
                 "app_version" to versionCode?.toString(),
-                "ts" to "" + timestamp())
+                "ts" to "" + timestamp(),
+                "flag" to "0")
     }
 }

@@ -51,7 +51,7 @@ object Encrypt {
 
     // rsa字符分段
     private fun sectionStr(str: String): List<String> {
-        var len = 128
+        var len = 256
         var strs = mutableListOf<String>()
         if (str.length <= len) {
             strs.add(str)
@@ -86,7 +86,7 @@ object Encrypt {
             System.arraycopy(bytes, 0, buffer, start, bytes.size)
             start += bytes.size
         }
-        return String(Base64.encode(buffer, Base64.NO_WRAP))
+        return String(Base64.encode(buffer, Base64.DEFAULT))
     }
 
     // 数据压缩

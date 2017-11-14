@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().inject(this)
 
         stateView.setViewState(MultiStateView.VIEW_STATE_LOADING.toInt())
-        stateView.setStateListener(object : MultiStateView.StateListener{
+        stateView.setStateListener(object : MultiStateView.StateListener {
             override fun onStateChanged(viewState: Int) {
 
             }
@@ -38,11 +38,15 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.getNewsInfo(kmapOf(
-                "news_id" to "927",
+                "page_size" to "20",
+                "page" to "1",
+                "type_id" to "9",
                 "period" to "-1")).observe(this, Observer {
-            bind.title = it?.title
-            mainAdapter.setNewData(listOf(it))
-            stateView.setViewState(MultiStateView.VIEW_STATE_CONTENT.toInt())
+            mainAdapter.setNewData(it)
+        })
+
+        viewModel.stateCommand.observe(this, Observer {
+            stateView.setViewState(it ?: MultiStateView.VIEW_STATE_UNKNOWN.toInt())
         })
     }
 }

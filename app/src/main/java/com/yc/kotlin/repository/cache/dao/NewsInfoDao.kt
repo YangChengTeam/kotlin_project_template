@@ -1,5 +1,6 @@
 package com.yc.kotlin.repository.cache.dao
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
@@ -14,6 +15,9 @@ interface NewsInfoDao {
     @Query("select * FROM news_info where id= :newsId")
     fun select(newsId: String): NewsInfo
 
+    @Query("select * FROM news_info")
+    fun loadAll(): LiveData<List<NewsInfo>>
+
     @Insert(onConflict = REPLACE)
-    fun insert(infoWrapper: NewsInfo)
+    fun insert(newsInfos: List<NewsInfo>)
 }

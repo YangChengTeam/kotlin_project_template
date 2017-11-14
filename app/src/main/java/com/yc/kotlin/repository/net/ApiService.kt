@@ -11,6 +11,6 @@ import retrofit2.http.POST
  */
 
 interface ApiService {
-    @POST("news/info")
+    @POST("news/search")
     fun getNewsInfo(@Body params: Map<String, String?>): Observable<ResultInfo<NewsInfoWrapper>>
 }

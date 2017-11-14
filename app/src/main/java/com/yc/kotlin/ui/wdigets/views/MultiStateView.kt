@@ -21,21 +21,24 @@ import java.lang.annotation.RetentionPolicy
 
 class MultiStateView : FrameLayout {
     companion object {
-        const val VIEW_STATE_UNKNOWN = -1L
+        const val VIEW_STATE_UNKNOWN = -1L  //视图未知错误
 
-        const val VIEW_STATE_CONTENT = 0L
+        const val VIEW_STATE_CONTENT = 0L   //视图获取到内容
 
-        const val VIEW_STATE_ERROR = 1L
+        const val VIEW_STATE_ERROR = 1L     //视图请求状态错误
 
-        const val VIEW_STATE_EMPTY = 2L
+        const val VIEW_STATE_EMPTY = 2L     //视图请求数据为空
 
-        const val VIEW_STATE_LOADING = 3L
+        const val VIEW_STATE_LOADING = 3L   //视图正在加载
+
+        const val VIEW_STATE_NET_ERROR  = 4L //视图网络错误
+
     }
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(VIEW_STATE_UNKNOWN, VIEW_STATE_CONTENT, VIEW_STATE_ERROR,
             VIEW_STATE_EMPTY,
-            VIEW_STATE_LOADING)
+            VIEW_STATE_LOADING, VIEW_STATE_NET_ERROR)
     annotation class ViewState
 
     private var mInflater: LayoutInflater? = null
