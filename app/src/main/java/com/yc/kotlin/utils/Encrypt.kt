@@ -74,7 +74,7 @@ object Encrypt {
         val bytesArray = mutableListOf<ByteArray>()
         var len = 0
         for (str in strs) {
-            rsa2ByteArray(str, key)?.let {
+            rsa2ByteArray(str, key!!)?.let {
                 bytesArray.add(it)
                 len += it.size
             }

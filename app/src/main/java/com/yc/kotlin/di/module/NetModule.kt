@@ -4,13 +4,15 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.yc.kotlin.App
-import com.yc.kotlin.helper.JSONConvertFactory
+import com.yc.kotlin.helper.EncryptInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
@@ -37,17 +39,32 @@ class NetModule
 
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(cache: Cache): OkHttpClient {
-        val client = OkHttpClient()
-        client.newBuilder().cache(cache)
-        return client
+    internal fun provideOkHttpClient(cache: Cache, loggingInterceptor: HttpLoggingInterceptor, encryptInterceptor: EncryptInterceptor): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        return builder.addInterceptor(loggingInterceptor).addInterceptor(encryptInterceptor).cache(cache).build()
+
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideLogInterceptor(): HttpLoggingInterceptor {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
+        return interceptor
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideKeyErrorInterceptor(): EncryptInterceptor {
+        return EncryptInterceptor()
+
     }
 
     @Provides
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .addConverterFactory(JSONConvertFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
