@@ -49,7 +49,7 @@ class NetModule
     @Singleton
     internal fun provideLogInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return interceptor
     }
 
@@ -57,7 +57,6 @@ class NetModule
     @Singleton
     internal fun provideKeyErrorInterceptor(): EncryptInterceptor {
         return EncryptInterceptor()
-
     }
 
     @Provides

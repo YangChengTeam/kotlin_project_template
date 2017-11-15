@@ -1,16 +1,8 @@
 package com.yc.kotlin.helper
 
 import com.yc.kotlin.domin.Config
-import com.yc.kotlin.domin.Goagal
 import com.yc.kotlin.utils.Encrypt
-import okhttp3.Interceptor
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import okhttp3.Response
-import java.nio.charset.Charset
-import okhttp3.ResponseBody
-
-
+import okhttp3.*
 
 
 /**

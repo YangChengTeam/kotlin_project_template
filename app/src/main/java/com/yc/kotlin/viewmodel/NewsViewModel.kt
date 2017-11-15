@@ -23,7 +23,7 @@ class NewsViewModel : BaseViewModel<NewsInfoWrapper>() {
 
     val data = MediatorLiveData<List<NewsInfo>>()
 
-    fun getNewsInfo(type: String, refresh: Boolean = false): LiveData<List<NewsInfo>> {
+    fun getNewsInfo(type: String, page: Int = 1, refresh: Boolean = false): LiveData<List<NewsInfo>> {
         if (!refresh) {
             val cache = newsInfoDao.loadAll()
             if (cache != null) {
@@ -36,7 +36,7 @@ class NewsViewModel : BaseViewModel<NewsInfoWrapper>() {
             }
         }
         val params = kmapOf(
-                "page" to "1",
+                "page" to page.toString(),
                 "type_id" to type)
         val disposable = apiService.getNewsInfo(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers
                 .mainThread()).subscribe({

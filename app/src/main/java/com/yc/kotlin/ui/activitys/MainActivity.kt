@@ -12,7 +12,6 @@ import com.yc.kotlin.R
 import com.yc.kotlin.databinding.ActivityMainBinding
 import com.yc.kotlin.di.compoent.DaggerMainActivityComponent
 import com.yc.kotlin.di.module.MainActivityModule
-import com.yc.kotlin.domin.kmapOf
 import com.yc.kotlin.ui.wdigets.adapters.MainAdapter
 import com.yc.kotlin.ui.wdigets.views.MultiStateView
 import com.yc.kotlin.viewmodel.NewsViewModel
@@ -23,6 +22,7 @@ import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
+    var page = 1
     @Inject lateinit var mainAdapter: MainAdapter
     @Inject lateinit var viewModel: NewsViewModel
 
@@ -34,22 +34,43 @@ class MainActivity : AppCompatActivity() {
 
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
         RxSwipeRefreshLayout.refreshes(swipeRefreshLayout).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            viewModel.getNewsInfo(Random().nextInt(10).toString(), true)
+            page = 1
+            viewModel.getNewsInfo(Random().nextInt(10).toString(), refresh = true)
         }
 
         recyclerView.adapter = mainAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        mainAdapter.setEnableLoadMore(true)
+        mainAdapter.setOnLoadMoreListener({
+            viewModel.getNewsInfo(Random().nextInt(10).toString(), ++page, true)
+        }, recyclerView)
+
         viewModel.getNewsInfo("20").observe(this, Observer {
-            mainAdapter.setNewData(it)
+            if (page == 1) {
+                mainAdapter.setNewData(it)
+            } else {
+                mainAdapter.addData(it)
+            }
+            if(it?.size == 20){
+                mainAdapter.loadMoreComplete()
+            } else {
+                mainAdapter.loadMoreEnd()
+            }
             swipeRefreshLayout.isRefreshing = false
         })
 
         stateView.setViewState(MultiStateView.VIEW_STATE_LOADING.toInt())
         viewModel.viewStateCommand.observe(this, Observer {
-            stateView.setViewState(it ?: MultiStateView.VIEW_STATE_UNKNOWN.toInt())
+            if(page == 1) {
+                stateView.setViewState(it ?: MultiStateView.VIEW_STATE_UNKNOWN.toInt())
+            }
+            if(it!!.toLong() != MultiStateView.VIEW_STATE_CONTENT){
+                mainAdapter.loadMoreEnd()
+            }
             swipeRefreshLayout.isRefreshing = false
         })
+
     }
 }
 

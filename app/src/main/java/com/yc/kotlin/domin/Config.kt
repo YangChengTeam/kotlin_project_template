@@ -62,8 +62,7 @@ object Goagal {
             val `in` = zf?.getInputStream(ze)
             return readString(`in`) ?: defaultKey
         }
-
-
+    
     val systemVersion: String? by lazy {
         if (android.os.Build.MODEL.contains(android.os.Build.BRAND))
             android.os.Build.MODEL + " " + android
