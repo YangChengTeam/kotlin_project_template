@@ -31,7 +31,7 @@ class EncryptInterceptor : Interceptor {
                     .build()
 
             val responseBody = ResponseBody.create(MEDIA_TYPE, Encrypt.decodeForHttp(response?.body()!!.byteStream()))
-            return response.newBuilder().header("Cache-Control", "max-age=60").body(responseBody).build()
+            return response.newBuilder().body(responseBody).build()
         }
         return response!!
     }
