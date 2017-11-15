@@ -32,7 +32,6 @@ class NewsViewModel : BaseViewModel<NewsInfoWrapper>() {
                     data.value = it
                     data.removeSource(cache)
                 })
-                return data
             }
         }
         val params = kmapOf(
