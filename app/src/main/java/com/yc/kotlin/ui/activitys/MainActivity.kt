@@ -2,12 +2,11 @@ package com.yc.kotlin.ui.activitys
 
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
+import com.jakewharton.rxbinding2.support.v4.widget.refreshes
 import com.yc.kotlin.R
 import com.yc.kotlin.databinding.ActivityMainBinding
 import com.yc.kotlin.di.compoent.DaggerMainActivityComponent
@@ -33,17 +32,17 @@ class MainActivity : AppCompatActivity() {
         DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().inject(this)
 
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
-        RxSwipeRefreshLayout.refreshes(swipeRefreshLayout).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        swipeRefreshLayout.refreshes().observeOn(AndroidSchedulers.mainThread()).subscribe {
             page = 1
             viewModel.getNewsInfo(Random().nextInt(10).toString(), refresh = true)
         }
 
         recyclerView.adapter = mainAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this )
 
         mainAdapter.setEnableLoadMore(true)
         mainAdapter.setOnLoadMoreListener({
-            viewModel.getNewsInfo(Random().nextInt(10).toString(), ++page, true)
+            viewModel.getNewsInfo(Random().nextInt(10).toString(), ++page, true )
         }, recyclerView)
 
         viewModel.getNewsInfo("20").observe(this, Observer {
