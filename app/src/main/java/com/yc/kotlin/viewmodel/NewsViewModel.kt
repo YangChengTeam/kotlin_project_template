@@ -26,13 +26,11 @@ class NewsViewModel : BaseViewModel<NewsInfoWrapper>() {
     fun getNewsInfo(type: String, page: Int = 1, refresh: Boolean = false): LiveData<List<NewsInfo>> {
         if (!refresh) {
             val cache = newsInfoDao.loadAll()
-            if (cache != null) {
-                viewStateCommand.value = MultiStateView.VIEW_STATE_CONTENT.toInt()
-                data.addSource(cache,  {
-                    data.value = it
-                    data.removeSource(cache)
-                })
-            }
+            viewStateCommand.value = MultiStateView.VIEW_STATE_CONTENT.toInt()
+            data.addSource(cache,  {
+                data.value = it
+                data.removeSource(cache)
+            })
         }
         val params = kmapOf(
                 "page" to page.toString(),

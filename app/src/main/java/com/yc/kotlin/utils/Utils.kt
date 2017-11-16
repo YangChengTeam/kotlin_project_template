@@ -56,9 +56,9 @@ inline fun getScreenWidth() = context.getResources().getDisplayMetrics().widthPi
 inline fun getSeenHeight() = context.getResources().getDisplayMetrics().heightPixels
 
 //判断屏幕横竖
-inline fun isLandscape() = context.getResources().getConfiguration().orientation === Configuration.ORIENTATION_LANDSCAPE
+inline fun isLandscape(): Boolean = context.getResources().getConfiguration().orientation === Configuration.ORIENTATION_LANDSCAPE
 
-inline fun isPortrait() = context.getResources().getConfiguration().orientation === Configuration.ORIENTATION_PORTRAIT
+inline fun isPortrait(): Boolean = context.getResources().getConfiguration().orientation === Configuration.ORIENTATION_PORTRAIT
 
 //判断屏幕锁屏
 inline fun isScreenLock() = (context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).inKeyguardRestrictedInputMode();

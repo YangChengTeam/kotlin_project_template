@@ -1,6 +1,7 @@
 package com.yc.kotlin
 
 import android.app.Application
+import com.alibaba.android.arouter.launcher.ARouter
 import com.yc.kotlin.di.compoent.DaggerNetComponent
 import com.yc.kotlin.di.compoent.NetComponent
 import com.yc.kotlin.di.module.AppModule
@@ -32,6 +33,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        ARouter.init(this)
         component.inject(this)
         instance = this
     }

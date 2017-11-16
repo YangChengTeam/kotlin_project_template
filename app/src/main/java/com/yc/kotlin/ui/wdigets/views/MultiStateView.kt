@@ -14,6 +14,10 @@ import android.widget.FrameLayout
 import com.yc.kotlin.R
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
+import android.support.design.widget.CoordinatorLayout
+import android.app.Activity
+
+
 
 /**
  * Created by zhangkai on 2017/11/14.
@@ -417,4 +421,9 @@ class MultiStateView : FrameLayout {
          */
         fun onStateChanged(@ViewState viewState: Int)
     }
+    var behavior: CoordinatorLayout.Behavior<*>? = null
+
+
+
+
 }
