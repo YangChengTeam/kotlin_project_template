@@ -2,8 +2,8 @@ package com.yc.kotlin
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
-import com.yc.kotlin.di.compoent.DaggerNetComponent
-import com.yc.kotlin.di.compoent.NetComponent
+import com.yc.kotlin.di.component.DaggerNetComponent
+import com.yc.kotlin.di.component.NetComponent
 import com.yc.kotlin.di.module.AppModule
 import com.yc.kotlin.di.module.NetModule
 import com.yc.kotlin.domin.Config

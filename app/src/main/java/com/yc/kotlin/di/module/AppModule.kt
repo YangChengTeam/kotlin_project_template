@@ -1,10 +1,8 @@
 package com.yc.kotlin.di.module
 
-import android.app.Application
 import android.arch.persistence.room.Room
 import com.yc.kotlin.App
 import com.yc.kotlin.repository.cache.AppDataBase
-import com.yc.kotlin.utils.context
 import dagger.Module
 import javax.inject.Singleton
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.yc.kotlin.di.compoent
+package com.yc.kotlin.di.component
 
 import com.yc.kotlin.App
 import com.yc.kotlin.di.module.AppModule

@@ -13,9 +13,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jakewharton.rxbinding2.support.v4.widget.refreshes
 import com.yc.kotlin.R
 import com.yc.kotlin.databinding.ActivityMainBinding
-import com.yc.kotlin.di.compoent.DaggerMainActivityComponent
+import com.yc.kotlin.di.component.DaggerMainActivityComponent
 import com.yc.kotlin.di.module.MainActivityModule
 import com.yc.kotlin.domin.ARouterPath
+import com.yc.kotlin.domin.Config
+import com.yc.kotlin.pay.IPayAbs
+import com.yc.kotlin.pay.di.component.DaggerPayComponent
+import com.yc.kotlin.pay.di.module.PayAbsModule
+import com.yc.kotlin.pay.domin.OrderInfo
+import com.yc.kotlin.pay.domin.OrderParamsInfo
 import com.yc.kotlin.ui.wdigets.adapters.MainAdapter
 import com.yc.kotlin.ui.wdigets.views.MultiStateView
 import com.yc.kotlin.viewmodel.NewsViewModel
@@ -30,10 +36,14 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var mainAdapter: MainAdapter
     @Inject lateinit var viewModel: NewsViewModel
 
+    @Inject lateinit var ipayAbs: IPayAbs
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bind = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().inject(this)
+        DaggerMainActivityComponent.builder().payAbsModule(PayAbsModule(this)).mainActivityModule(MainActivityModule
+        (this)).build()
+                .inject(this)
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
         swipeRefreshLayout.refreshes().observeOn(AndroidSchedulers.mainThread()).subscribe {
             page = 1
@@ -79,6 +89,16 @@ class MainActivity : AppCompatActivity() {
                 val compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
                         view!!.findViewById(R.id.title), getString(R.string.transition))
                 ARouter.getInstance().build(ARouterPath.TEST_ACTIVITY).withParcelable("newsInfo", mainAdapter?.data?.get(position)).withOptionsCompat(compat).navigation(this@MainActivity)
+            }
+        })
+
+        val orderParams = OrderParamsInfo(Config.baseUrl +"order/init", "1", "1", 2f, "test")
+        orderParams.paywayName = "h5_"
+        ipayAbs.pay(orderParams, object : IPayAbs.IPayCallback {
+            override fun onSuccess(orderInfo: OrderInfo) {
+            }
+
+            override fun onFailure(orderInfo: OrderInfo) {
             }
         })
     }
