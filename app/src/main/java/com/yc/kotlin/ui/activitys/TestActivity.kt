@@ -4,6 +4,7 @@ import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -30,5 +31,8 @@ class TestActivity : Activity() {
         ARouter.getInstance().inject(this)
         Log.i(ARouterPath.TEST_ACTIVITY, newsInfo.title)
         textView.text = newsInfo.title
+
+        collapsingToolbar.title = getString(R.string.app_name)
+        collapsingToolbar.expandedTitleGravity = Gravity.CENTER
     }
 }

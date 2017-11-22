@@ -19,7 +19,7 @@ String){
     fun getParams() : Map<String, String?>{
         return kmapOf("goods_id" to goodsId,
                 "goods_num" to goodsNum.toString(),
-                "is_payway_split" to goodsId,
+                "is_payway_split" to isPayWaySplit.toString(),
                 "payway_name" to paywayName,
                 "price_total" to price.toString(),
                 "ds_money" to dsMoeny.toString(),

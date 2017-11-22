@@ -1,5 +1,6 @@
 package com.yc.kotlin.ui.activitys
 
+import android.annotation.TargetApi
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
